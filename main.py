@@ -4,7 +4,6 @@ from mcpi_e.minecraft import Minecraft
 from mcpi_e.vec3 import Vec3
 import mcpi_e.block as block
 
-
 from Different.Relative import Relative
 from Different.Style import Style
 from Different.Used import Used
@@ -12,6 +11,9 @@ from ObjectLib.Railroad import Railroad
 from ObjectLib.RailroadStrategy.PutBlockAndRail import PutBlockAndRail
 from ObjectLib.RailroadStrategy.CheckDigAndPutRail import CheckDigAndPutRail
 from ObjectLib.RailroadStrategy.ChickenStop import ChickenStop
+from ObjectLib.RailroadDecorator.Pillar import Pillar
+from ObjectLib.RailroadDecorator.FlatSupport import FlatSupport
+from ObjectLib.RailroadDecorator.CorniceSupport import CorniceSupport
 
 
 
@@ -26,14 +28,15 @@ playerName="Urgorka" # change to your username
 
 mc = Minecraft.create(serverAddress,pythonApiPort,playerName)
 
-# playerPos.y+=15
-# b = Block(mc)
-# b.draw(playerPos, 60, 38, 60, block.AIR)
+# pos = mc.player.getTilePos()
+# rot = mc.player.getRotation()
+# print (pos, rot)
+# sys.exit()
 
 ### Railroad
-# relativePos = Relative(Vec3(238,8,-1260), 90)  # Vec3(-844,8,-1260) Polar station
-relativePos = Relative(mc.player.getTilePos(), mc.player.getRotation())
-length = 1100
+relativePos = Relative(Vec3(516, 2,-1155), 1)
+# relativePos = Relative(mc.player.getTilePos(), mc.player.getRotation())
+length = 25
 a = relativePos.bottom(1).get_current()
 b = relativePos.bottom(1).forward(length).get_current()
 used = Used(a, b, mc.getBlocks(a, b))
@@ -45,7 +48,7 @@ rr = Railroad(mc, used)
 rr.draw(
     relativePos,
     length,
-    PutBlockAndRail(mc, used, style),
+    FlatSupport(mc, (Pillar(mc, PutBlockAndRail(mc, used, style)))),
     ChickenStop(mc, used, style) # CheckDigAndPutRail(mc, used, style)
 )
 

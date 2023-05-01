@@ -2,7 +2,9 @@ from Different.Relative import *
 from mcpi_e.minecraft import Minecraft
 from Different.Used import Used
 import mcpi_e.block as block
-from ObjectLib.RailroadStrategy.Strategy import Strategy
+
+from ObjectLib.RailroadDecorator.AbstractDecorator import AbstractDecorator
+from ObjectLib.RailroadStrategy.AbstractStrategy import AbstractStrategy
 
 
 class Railroad:
@@ -11,7 +13,7 @@ class Railroad:
         self.mc = mc
         self.used = used
 
-    def draw(self, rel: Relative, distance: int, empty_strategy: Strategy, busy_strategy: Strategy):
+    def draw(self, rel: Relative, distance: int, empty_strategy: AbstractStrategy | AbstractDecorator, busy_strategy: AbstractStrategy):
         """
         Build railway
         :param rel: Relation position

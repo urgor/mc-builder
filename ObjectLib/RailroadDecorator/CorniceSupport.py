@@ -1,0 +1,3 @@
+
+class CorniceSupport:
+    pass
