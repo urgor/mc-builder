@@ -52,7 +52,7 @@ class Used:
         except:
             return None
 
-    def set_as_used(self, rel: Relative, block_id: int):
+    def set_as_used(self, rel: Relative, block_id: int, *args):
         """
         Set block as used by us, to draw it in the future
         :param rel: Relative position
@@ -67,7 +67,7 @@ class Used:
             self.new[cur.x] = {}
         if cur.y not in self.new[cur.x]:
             self.new[cur.x][cur.y] = {}
-        self.new[cur.x][cur.y][cur.z] = block_id
+        self.new[cur.x][cur.y][cur.z] = (block_id, *args)
         self.min_y = min([self.min_y, cur.y])
         self.max_y = max([self.max_y, cur.y])
         self.min_x = min([self.min_x, cur.x])

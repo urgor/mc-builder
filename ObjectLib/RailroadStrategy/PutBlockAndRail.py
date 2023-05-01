@@ -15,7 +15,7 @@ class PutBlockAndRail(AbstractStrategy):
             self.flag['powered_rail_block'] = True
             self.iteration = 0
             self.used.set_as_used(rel.top(1), block.RAIL_POWERED.id)
-            self.used.set_as_used(rel.bottom(1), block.TORCH_REDSTONE.id)
+            self.used.set_as_used(rel.bottom(1), block.TORCH_REDSTONE.id, {'facing': 'bottom'})
             self.used.set_as_used(rel.bottom(2), self.style.bottom)
         else:
             self.used.set_as_used(rel.top(1), block.RAIL.id)
