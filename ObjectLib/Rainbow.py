@@ -1,23 +1,6 @@
 from math import *
 import mcpi_e.block as block
 
-# 0 white
-# 1 orange
-# 2 magenta
-#3 blue
-#4 yellow
-#5 lime
-#6 pink
-#7 gray
-#8 light_gray
-#9  cyan
-#10 purple
-#11 blue
-#12 brown
-#13 green
-#14 red
-#15 black
-
 class Rainbow():
     colors = [14, 1, 4, 5, 3, 11, 10]
 

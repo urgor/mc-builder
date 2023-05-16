@@ -86,3 +86,23 @@ class Relative:
         new: Relative = deepcopy(self)
         new.position.y += amount
         return new
+
+    def north(self, amount) -> Relative:
+        new: Relative = deepcopy(self)
+        new.position.z -= amount
+        return new
+
+    def south(self, amount) -> Relative:
+        new: Relative = deepcopy(self)
+        new.position.z += amount
+        return new
+
+    def east(self, amount) -> Relative:
+        new: Relative = deepcopy(self)
+        new.position.x += amount
+        return new
+
+    def west(self, amount) -> Relative:
+        new: Relative = deepcopy(self)
+        new.position.x -= amount
+        return new

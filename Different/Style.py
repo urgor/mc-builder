@@ -5,5 +5,6 @@ class Style:
         self.wall_thick = None
         self.filling = None
         self.pillar = None
+        self.cornice = None
 
     # def __getattr__(self, item):

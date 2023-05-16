@@ -6,13 +6,9 @@ from Different import Used, Style, Relative
 
 class AbstractStrategy:
     def __init__(self, mc: Minecraft, used: Used, style: Style):
-        self.iteration = 0
         self.used = used
         self.style = style
         self.mc = mc
-        self.flag = {
-            'powered_rail_block': False
-        }
 
     def get_decorated(self) -> AbstractStrategy:
         """
@@ -21,7 +17,7 @@ class AbstractStrategy:
         """
         return self
 
-    def exec(self, rel: Relative):
+    def exec(self, rel: Relative, builder_state: dict):
         pass
 
     

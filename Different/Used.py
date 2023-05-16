@@ -14,6 +14,7 @@ class Used:
         :param map: result of Minecraft.getBlocks()
         """
         self.new = {}
+        self.order = []
         self.used = {}
         self.min_y = 0
         self.max_y = 0
@@ -73,6 +74,8 @@ class Used:
         self.min_x = min([self.min_x, cur.x])
         self.max_x = max([self.max_x, cur.x])
 
+        self.order.append(cur)
+
     def iterate_by_new(self) -> Generator:
         """
         Iterate by new block set by us, to draw them
@@ -92,6 +95,19 @@ class Used:
                     if z not in self.new[x][y]:
                         continue
                     yield Vec3(x, y, z), self.new[x][y][z]
+
+    def iterate_by_new_ordered(self) -> Generator:
+        """
+        Iterate by new block set by us, to draw them
+        :return:
+        """
+        if not self.new:
+            return iter(())
+        for vec in self.order:
+            if vec.x not in self.new or vec.y not in self.new[vec.x] or vec.z not in self.new[vec.x][vec.y]:
+                print('NONE!', vec)
+                continue
+            yield vec, self.new[vec.x][vec.y][vec.z]
 
     def iterate_by_y(self, rel: Relative, step: int) -> Generator:
         cur = rel.get_current()

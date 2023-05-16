@@ -16,6 +16,6 @@ class AbstractDecorator:
         """
         return self.decorated.get_decorated()
 
-    def exec(self, rel: Relative):
+    def exec(self, rel: Relative, builder_state: dict):
         pass
 

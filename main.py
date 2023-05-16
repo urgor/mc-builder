@@ -3,6 +3,7 @@ import time, sys
 from mcpi_e.minecraft import Minecraft
 from mcpi_e.vec3 import Vec3
 import mcpi_e.block as block
+from mcpi_e.block import Block
 
 from Different.Relative import Relative
 from Different.Style import Style
@@ -14,19 +15,18 @@ from ObjectLib.RailroadStrategy.ChickenStop import ChickenStop
 from ObjectLib.RailroadDecorator.Pillar import Pillar
 from ObjectLib.RailroadDecorator.FlatSupport import FlatSupport
 from ObjectLib.RailroadDecorator.CorniceSupport import CorniceSupport
-
-
+from Different.Color import *
+from Different.Direction import *
 
 import collections
 
+collections.Iterable = collections.abc.Iterable  # to prevent "AttributeError: module 'collections' has no attribute 'Iterable'"
 
-collections.Iterable = collections.abc.Iterable # to prevent "AttributeError: module 'collections' has no attribute 'Iterable'"
+serverAddress = "127.0.0.1"
+pythonApiPort = 4711  # default port for RaspberryJuice plugin is 4711, it could be changed in plugins\RaspberryJuice\config.yml
+playerName = "Urgorka"  # change to your username
 
-serverAddress="127.0.0.1"
-pythonApiPort=4711 #default port for RaspberryJuice plugin is 4711, it could be changed in plugins\RaspberryJuice\config.yml
-playerName="Urgorka" # change to your username
-
-mc = Minecraft.create(serverAddress,pythonApiPort,playerName)
+mc = Minecraft.create(serverAddress, pythonApiPort, playerName)
 
 # pos = mc.player.getTilePos()
 # rot = mc.player.getRotation()
@@ -34,22 +34,23 @@ mc = Minecraft.create(serverAddress,pythonApiPort,playerName)
 # sys.exit()
 
 ### Railroad
-relativePos = Relative(Vec3(516, 2,-1155), 1)
+relativePos = Relative(Vec3(516, 2, -1155), 1)
 # relativePos = Relative(mc.player.getTilePos(), mc.player.getRotation())
-length = 25
+length = 100
 a = relativePos.bottom(1).get_current()
 b = relativePos.bottom(1).forward(length).get_current()
 used = Used(a, b, mc.getBlocks(a, b))
 style = Style()
 style.bottom = block.BRICK_BLOCK.id
 style.pillar = block.BRICK_BLOCK.id
+style.cornice = block.STAIRS_BRICK
 
-rr = Railroad(mc, used)
+rr = Railroad(mc, used, style)
 rr.draw(
     relativePos,
     length,
-    FlatSupport(mc, (Pillar(mc, PutBlockAndRail(mc, used, style)))),
-    ChickenStop(mc, used, style) # CheckDigAndPutRail(mc, used, style)
+    CorniceSupport(mc, (Pillar(mc, PutBlockAndRail(mc, used, style)))),
+    ChickenStop(mc, used, style)  # CheckDigAndPutRail(mc, used, style)
 )
 
 # style = Style()
@@ -61,4 +62,3 @@ rr.draw(
 
 # r = Rainbow(mc)
 # r.draw(playerPos, 25)
-
