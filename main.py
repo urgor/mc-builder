@@ -34,16 +34,16 @@ mc = Minecraft.create(serverAddress, pythonApiPort, playerName)
 # sys.exit()
 
 ### Railroad
-relativePos = Relative(Vec3(516, 2, -1155), 1)
-# relativePos = Relative(mc.player.getTilePos(), mc.player.getRotation())
-length = 100
-a = relativePos.bottom(1)
-b = relativePos.bottom(1).forward(length)
-used = Used(a.get_current(), b.get_current(), mc.getBlocks(a.get_current(), b.get_current()))
+relativePosA = Relative(Vec3(275,8,-1260), -91.02582)
+relativePosB = Relative(Vec3(1180,8,-1260), 89.27374)
+
+a = relativePosA.bottom(1)
+b = relativePosB
+used = Used(a.get_current(), a.get_current(), mc.getBlocks(a.get_current(), a.get_current()))
 style = Style()
-style.bottom = block.BRICK_BLOCK.id
-style.pillar = block.BRICK_BLOCK.id
-style.cornice = block.STAIRS_BRICK
+style.bottom = block.STONE_BRICK.id
+style.pillar = block.STONE_BRICK.id
+style.cornice = block.STAIRS_STONE_BRICK
 
 rr = Railroad(mc, used, style)
 rr.draw(
