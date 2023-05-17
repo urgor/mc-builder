@@ -22,19 +22,20 @@ class Railroad:
             'iteration': 0
         }
 
-    def draw(self, rel: Relative, distance: int, empty_strategy: AbstractStrategy | AbstractDecorator, busy_strategy: AbstractStrategy):
+    def draw(self, a: Relative, b: Relative, empty_strategy: AbstractStrategy | AbstractDecorator, busy_strategy: AbstractStrategy):
         """
         Build railway
-        :param rel: Relation position
-        :param distance: Maximum build distance
+        :param a: build from point a
+        :param b: to point b
         :param empty_strategy: Behaviour strategy for empty block
         :param busy_strategy: Behaviour strategy for existent block
         :return:
         """
+        distance = a.towards(b)
         for i in range(1, distance + 1):
             self.state['iteration'] += 1
             self.state['powered_rail_block'] = False
-            cur = rel.bottom(1).forward(i)
+            cur = a.bottom(1).forward(i)
             self.used.set_as_used(cur, self.style.bottom)
 
             if self.state['iteration'] == PUT_POWERED_EACH:
@@ -55,5 +56,6 @@ class Railroad:
             #     busy_strategy.exec(cur_rel)
 
 
-        for (vec, block_id) in self.used.iterate_by_new():
+        # for (vec, block_id) in self.used.iterate_by_new():
+        for (vec, block_id) in self.used.iterate_by_new_ordered():
             self.mc.setBlock(vec, block_id)

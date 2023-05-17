@@ -1,6 +1,6 @@
 import time
 from typing import Generator
-
+from copy import *
 from mcpi_e.vec3 import Vec3
 import Different.Relative as Relative
 
@@ -60,8 +60,6 @@ class Used:
         :param block_id: Block ID
         :return:
         """
-        if block_id is None:
-            raise Exception('zzz')
         cur = rel.get_current()
 
         if cur.x not in self.new:
@@ -74,7 +72,7 @@ class Used:
         self.min_x = min([self.min_x, cur.x])
         self.max_x = max([self.max_x, cur.x])
 
-        self.order.append(cur)
+        self.order.append(deepcopy(cur))
 
     def iterate_by_new(self) -> Generator:
         """

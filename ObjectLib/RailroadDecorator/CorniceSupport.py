@@ -12,12 +12,11 @@ class CorniceSupport(AbstractDecorator):
     def pillar_support(self, rel: Relative):
         strategy = self.get_decorated()
         cur_rel = rel.bottom(1)
+        strategy.used.set_as_used(cur_rel.north(1).east(1), strategy.style.cornice.withData(DOWN_NORTH))
+        strategy.used.set_as_used(cur_rel.south(1).east(1), strategy.style.cornice.withData(DOWN_SOUTH))
+        strategy.used.set_as_used(cur_rel.south(1).west(1), strategy.style.cornice.withData(DOWN_WEST))
+        strategy.used.set_as_used(cur_rel.north(1).west(1), strategy.style.cornice.withData(DOWN_NORTH))
         strategy.used.set_as_used(cur_rel.north(1), strategy.style.cornice.withData(DOWN_NORTH))
         strategy.used.set_as_used(cur_rel.east(1), strategy.style.cornice.withData(DOWN_EAST))
         strategy.used.set_as_used(cur_rel.south(1), strategy.style.cornice.withData(DOWN_SOUTH))
         strategy.used.set_as_used(cur_rel.west(1), strategy.style.cornice.withData(DOWN_WEST))
-
-        strategy.used.set_as_used(cur_rel.north(1).west(1), strategy.style.cornice.withData(DOWN_NORTH))
-        strategy.used.set_as_used(cur_rel.east(1).north(1), strategy.style.cornice.withData(DOWN_EAST))
-        strategy.used.set_as_used(cur_rel.south(1).east(1), strategy.style.cornice.withData(DOWN_SOUTH))
-        strategy.used.set_as_used(cur_rel.west(1).south(1), strategy.style.cornice.withData(DOWN_WEST))

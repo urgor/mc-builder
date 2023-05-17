@@ -106,3 +106,20 @@ class Relative:
         new: Relative = deepcopy(self)
         new.position.x -= amount
         return new
+
+    def towards(self, point: Relative) -> int:
+        """
+        Calculates 1 dimensioned distance between current Relative and given
+        :param point:
+        :return:
+        """
+        match self.direction:
+            case Relative.NORTH:
+                return self.position.z - point.position.z
+            case Relative.SOUTH:
+                return point.position.z - self.position.z
+            case Relative.EAST:
+                return point.position.x - self.position.x
+            case Relative.WEST:
+                return self.position.x - point.position.x
+

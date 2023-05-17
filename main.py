@@ -37,9 +37,9 @@ mc = Minecraft.create(serverAddress, pythonApiPort, playerName)
 relativePos = Relative(Vec3(516, 2, -1155), 1)
 # relativePos = Relative(mc.player.getTilePos(), mc.player.getRotation())
 length = 100
-a = relativePos.bottom(1).get_current()
-b = relativePos.bottom(1).forward(length).get_current()
-used = Used(a, b, mc.getBlocks(a, b))
+a = relativePos.bottom(1)
+b = relativePos.bottom(1).forward(length)
+used = Used(a.get_current(), b.get_current(), mc.getBlocks(a.get_current(), b.get_current()))
 style = Style()
 style.bottom = block.BRICK_BLOCK.id
 style.pillar = block.BRICK_BLOCK.id
@@ -47,11 +47,14 @@ style.cornice = block.STAIRS_BRICK
 
 rr = Railroad(mc, used, style)
 rr.draw(
-    relativePos,
-    length,
+    a,
+    b,
     CorniceSupport(mc, (Pillar(mc, PutBlockAndRail(mc, used, style)))),
     ChickenStop(mc, used, style)  # CheckDigAndPutRail(mc, used, style)
 )
+
+# @todo main strategy for env: air, water, stone
+# @todo decorators for main strategy: tone
 
 # style = Style()
 # style.bottom = (block.BRICK_BLOCK.id)
