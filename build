@@ -1,0 +1,64 @@
+#!/usr/bin/python3
+import sys, glob
+from mcpi_e.minecraft import Minecraft
+import collections
+from Different.Used import Used
+from Different.Flume import Flume
+
+collections.Iterable = collections.abc.Iterable  # to prevent "AttributeError: module 'collections' has no attribute 'Iterable'"
+
+if sys.argv[1] is None:
+    sys.exit(255)
+
+
+def connect_to_mc():
+    serverAddress = "127.0.0.1"
+    pythonApiPort = 4711  # default port for RaspberryJuice plugin is 4711, it could be changed in plugins\RaspberryJuice\config.yml
+    playerName = "Urgorka"  # change to your username
+
+    return Minecraft.create(serverAddress, pythonApiPort, playerName)
+
+def get_undo_list():
+    file_list = glob.glob(Used.path_to_store + '/*.bin')
+    file_list.sort(reverse=True)
+    return file_list
+
+match sys.argv[1]:
+    case 'undolist':
+        files = get_undo_list()
+        if 0 == len(files):
+            print('Undo history is empty.')
+            exit(0)
+        for idx in range(len(files)-1, -1, -1):
+            print('[%d] - %s' % (idx, files[idx]))
+
+    case 'undo':
+        files = get_undo_list()
+        if 0 == len(files):
+            print('Undo history is empty.')
+            exit(0)
+        idx = 0 if len(sys.argv) < 3 else int(sys.argv[2])
+        print('Using file #%i - %s' % (idx, files[idx]))
+        flume = Flume(connect_to_mc())
+        flume.set_raw_data(Used.raise_data(files[idx]))
+        flume.flush_to_mc_yxz()
+
+    case 'getPos':
+        mc = connect_to_mc()
+        while True:
+            pos = mc.player.getTilePos()
+            rot = mc.player.getRotation()
+            print(pos, rot)
+            data = input("Press enter:\n")
+    case _:
+        package = "Scenario"
+        name = sys.argv[1]
+
+        module = getattr(__import__(package, fromlist=[name]), name)
+        command = vars(module)[name]
+        print(command)
+        mc = connect_to_mc()
+        cmd = command(mc)
+        cmd.exec()
+        print('here')
+        Used.store()

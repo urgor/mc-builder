@@ -19,6 +19,6 @@ class Pillar(AbstractDecorator):
         pilar_used = Used(a, b, self.mc.getBlocks(a, b))
         for pillar_block_rel, block_id in pilar_used.iterate_by_y(pillars_top_rel, -1):
             if block_id in [block.AIR.id, block.WATER.id, block.LEAVES.id, block.LEAVES2.id]:
-                self.get_decorated().used.set_as_used(pillar_block_rel, self.decorated.style.pillar)
+                self.get_decorated().flume.set_as_used(pillar_block_rel, self.decorated.style.pillar)
             else:
                 break

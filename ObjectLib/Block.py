@@ -1,6 +1,6 @@
 from math import *
 import mcpi_e.block as block
-
+from mcpi_e.vec3 import Vec3
 
 class Block:
     def __init__(self, mc):
@@ -16,6 +16,9 @@ class Block:
             block_type.id
         )
         print("block created at x:{} y:{} z:{}".format(center.x, center.y, center.z))
+
+    def draw_ab(self, a: Vec3, b: Vec3, id: int):
+        self.mc.setBlocks(a.x, a.y, a.z, b.x, b.y, b.z, id)
 
     def erase(self, center, x, y, z):
         half_x = int(x/2)

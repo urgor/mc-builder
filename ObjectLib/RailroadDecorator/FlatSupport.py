@@ -26,4 +26,4 @@ class FlatSupport(AbstractDecorator):
             for j in range(len(a[i])):
                 if a[i][j] == 0:
                     continue
-                strategy.used.set_as_used(cur_rel.bottom(i).forward(j), strategy.style.pillar)
+                strategy.flume.set_as_used(cur_rel.bottom(i).forward(j), strategy.style.pillar)

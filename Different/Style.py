@@ -1,10 +1,15 @@
 class Style:
-    def __init__(self):
-        self.bottom = None
-        self.wall = None
-        self.wall_thick = None
-        self.filling = None
-        self.pillar = None
-        self.cornice = None
+    def __init__(self, **args):
+        self.data = {}
+        self.data.update(args)
+        self.unknown = []
 
-    # def __getattr__(self, item):
+    def __getattr__(self, item):
+        if item in self.data:
+            return self.data[item]
+
+        if item not in self.unknown:
+            self.unknown.append(item)
+            print('Style: requested unknown type "%s"' % item)
+
+        return 1

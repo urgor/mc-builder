@@ -1,14 +1,13 @@
 from __future__ import annotations
 from mcpi_e.minecraft import Minecraft
-
-from Different import Used, Style, Relative
+from Different import Style, Relative, Flume
 
 
 class AbstractStrategy:
-    def __init__(self, mc: Minecraft, used: Used, style: Style):
-        self.used = used
+    def __init__(self, mc: Minecraft, style: Style, flume: Flume):
         self.style = style
         self.mc = mc
+        self.flume = flume
 
     def get_decorated(self) -> AbstractStrategy:
         """
