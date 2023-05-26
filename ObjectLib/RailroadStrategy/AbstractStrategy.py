@@ -8,6 +8,7 @@ class AbstractStrategy:
         self.style = style
         self.mc = mc
         self.flume = flume
+        self.used = None
 
     def get_decorated(self) -> AbstractStrategy:
         """

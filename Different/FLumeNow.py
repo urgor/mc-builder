@@ -14,19 +14,11 @@ class FlumeNow(Flume):
         :param block_id: Block ID
         :return:
         """
+        super().set_as_used(rel, block_id, args)
         self.mc.setBlock(rel.get_current(), block_id, args)
-        print(block_id)
 
-    def iterate_by_new(self) -> Generator:
-        """
-        Iterate by new block set by us, to draw them
-        :return:
-        """
-        return iter(())
+        def flush_to_mc_yxz(self):
+            pass
 
-    def iterate_by_new_ordered(self) -> Generator:
-        """
-        Iterate by new block set by us, to draw them
-        :return:
-        """
-        return iter(())
+        def flush_to_mc(self):
+            pass

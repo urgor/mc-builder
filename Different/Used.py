@@ -17,6 +17,9 @@ class Used:
         :param linear_data: result of Minecraft.getBlocks()
         """
         self.used = {}
+        self.add(a, b, linear_data)
+
+    def add(self, a: Vec3, b: Vec3, linear_data: map):
         xx = [a.x, b.x]
         yy = [a.y, b.y]
         zz = [a.z, b.z]

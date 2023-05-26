@@ -4,13 +4,14 @@ import mcpi_e.block as block
 from mcpi_e.block import Block
 
 from ObjectLib.Railroad import Railroad
-from ObjectLib.RailroadStrategy.Tunnel import *
+from ObjectLib.RailroadStrategy.Tunnel9 import *
 from ObjectLib.RailroadStrategy.DoNothing import *
 from ObjectLib.RailroadDecorator.Pillar import Pillar
 from ObjectLib.RailroadDecorator.FlatSupport import FlatSupport
 from ObjectLib.RailroadDecorator.CorniceSupport import CorniceSupport
+from ObjectLib.RailroadDecorator.TunnelRound import *
 from ObjectLib.Block import Block as MaBlock
-import Different.Relative
+from Different.Relative import *
 from Different.Style import *
 from Different.Flume import *
 from Different.FLumeNow import *
@@ -22,29 +23,30 @@ class Test:
         self.mc = mc
 
     def exec(self):
-        cur = Relative.Relative(self.mc.player.getTilePos(), self.mc.player.getRotation())
-        a = cur.forward(1).bottom(1).left(1)
-        b = a.top(3).right(3).forward(3)
-        u1 = Used(a.get_current(), b.get_current(),  self.mc.getBlocks(a.get_current(), b.get_current()))
-        b = MaBlock(self.mc).draw_ab(a.get_current(), b.get_current(), block.COBBLESTONE.id)
-        return
+        # patch world by stone block
+        # cur = Relative.Relative(self.mc.player.getTilePos(), self.mc.player.getRotation())
+        # a = cur.forward(1).left(2)
+        # b = a.top(4).right(4).forward(100)
+        # u1 = Used(a.get_current(), b.get_current(),  self.mc.getBlocks(a.get_current(), b.get_current()))
+        # MaBlock(self.mc).draw_ab(a.get_current(), b.get_current(), block.STONE.id)
+        # return
 
         ### Railroad
-        relativePosA = Relative(self.mc.player.getTilePos(), self.mc.player.getRotation())
-        relativePosB = relativePosA.forward(100)
+        relativePosA = Relative.Relative(self.mc.player.getTilePos(), self.mc.player.getRotation())
 
-        a = relativePosA.bottom(1)
-        b = relativePosB
+        a = relativePosA.bottom(1).forward(1)
+        b = a.forward(100)
 
         style = Style(bottom=block.STONE_BRICK.id, pillar=block.STONE_BRICK.id, cornice=block.STAIRS_STONE_BRICK)
-        tunnel_style = Style(top=block.STONE_BRICK.id, wall=block.STONE_BRICK.id, corner=block.STAIRS_STONE_BRICK.id)
+        tunnel_style = Style(top=block.STONE_BRICK.id, wall=block.STONE_BRICK.id, corner=block.STAIRS_STONE_BRICK.id,
+                             rounding=block.STAIRS_STONE_BRICK)
 
-        # flume = Flume(mc)
+        # flume = Flume(self.mc)
         flume = FlumeNow(self.mc)
 
         rr = Railroad(self.mc, style, flume)
         # rr.set_strategy_for_air(CorniceSupport(mc, (Pillar(mc, DoNothing(mc, style, flume)))))
-        rr.set_strategy_for_tunnel(Tunnel(self.mc, tunnel_style, flume))
+        rr.set_strategy_for_tunnel(TunnelRound(self.mc, Tunnel9(self.mc, tunnel_style, flume)))
         rr.draw(a, b)
 
         # @todo main strategy for env: air, water, stone

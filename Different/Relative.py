@@ -2,13 +2,46 @@ from __future__ import annotations
 
 from mcpi_e.vec3 import Vec3
 from copy import *
-
+import Different.Direction as drctn
 
 class Relative:
     NORTH = 'N'
     SOUTH = 'S'
     EAST = 'E'
     WEST = 'W'
+
+    UP_RIGHT = 0
+    UP_LEFT = 1
+    DOWN_RIGHT = 2
+    DOWN_LEFT = 3
+
+    mapping = {
+        NORTH: {
+            UP_RIGHT: drctn.UP_EAST,
+            UP_LEFT: drctn.UP_WEST,
+            DOWN_RIGHT: drctn.DOWN_EAST,
+            DOWN_LEFT: drctn.DOWN_WEST,
+        },
+        SOUTH: {
+            UP_RIGHT: drctn.UP_WEST,
+            UP_LEFT: drctn.UP_EAST,
+            DOWN_RIGHT: drctn.DOWN_WEST,
+            DOWN_LEFT: drctn.DOWN_EAST,
+        },
+        EAST: {
+            UP_RIGHT: drctn.UP_SOUTH,
+            UP_LEFT: drctn.UP_NORTH,
+            DOWN_RIGHT: drctn.DOWN_SOUTH,
+            DOWN_LEFT: drctn.DOWN_NORTH,
+        },
+        WEST: {
+            UP_RIGHT: drctn.UP_NORTH,
+            UP_LEFT: drctn.UP_SOUTH,
+            DOWN_RIGHT: drctn.DOWN_NORTH,
+            DOWN_LEFT: drctn.DOWN_SOUTH,
+        },
+    }
+
 
     def __init__(self, position: Vec3, angle: float):
         self.position = position
@@ -17,7 +50,7 @@ class Relative:
             self.direction = Relative.SOUTH
         elif 45 <= angle < 135:
             self.direction = Relative.WEST
-        elif 135 <= angle < -135:
+        elif 135 <= angle < 180 or -180 < angle < -135:
             self.direction = Relative.NORTH
         elif -135 <= angle < -45:
             self.direction = Relative.EAST
@@ -123,3 +156,10 @@ class Relative:
             case Relative.WEST:
                 return self.position.x - point.position.x
 
+    def get_abs_direction(self, direction: int) -> int:
+        """
+        Returns absolute direction by relative according current gaze direction
+        :param direction:
+        :return:
+        """
+        return Relative.mapping[self.direction][direction]

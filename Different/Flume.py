@@ -50,6 +50,8 @@ class Flume:
                 z_min = min(data[x][y].keys())
                 z_max = max(data[x][y].keys()) + 1
                 for z in range(z_min, z_max):
+                    if x not in data or y not in data[x] or z not in data[x][y]:
+                        continue
                     self.set_as_used(Relative(Vec3(x, y, z), 0), data[x][y][z])
 
     def iterate_by_new(self) -> Generator:
@@ -80,9 +82,6 @@ class Flume:
         if not self.new:
             return iter(())
         for vec in self.order:
-            if vec.x not in self.new or vec.y not in self.new[vec.x] or vec.z not in self.new[vec.x][vec.y]:
-                print('NONE!', vec)
-                continue
             yield vec, self.new[vec.x][vec.y][vec.z]
 
     def flush_to_mc_yxz(self):
@@ -93,3 +92,15 @@ class Flume:
         # for (vec, block_id) in self.used.iterate_by_new():
         for (vec, block_id) in self.iterate_by_new_ordered():
             self.mc.setBlock(vec, block_id)
+
+    def get_one(self, rel: Relative) -> int:
+        """
+        Get one block from currently used from game, not by us!
+        :param rel: Relative position
+        :return: Block ID
+        """
+        cur = rel.get_current()
+        try:
+            return self.new[cur.x][cur.y][cur.z][0]
+        except:
+            return None
