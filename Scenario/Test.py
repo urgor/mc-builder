@@ -5,6 +5,7 @@ from mcpi_e.block import Block
 
 from ObjectLib.Railroad import Railroad
 from ObjectLib.RailroadStrategy.Tunnel9 import *
+from ObjectLib.RailroadStrategy.Tunnel6 import *
 from ObjectLib.RailroadStrategy.DoNothing import *
 from ObjectLib.RailroadDecorator.Pillar import Pillar
 from ObjectLib.RailroadDecorator.FlatSupport import FlatSupport
@@ -24,11 +25,11 @@ class Test:
 
     def exec(self):
         # patch world by stone block
-        # cur = Relative.Relative(self.mc.player.getTilePos(), self.mc.player.getRotation())
-        # a = cur.forward(1).left(2)
+        cur = Relative.Relative(self.mc.player.getTilePos(), self.mc.player.getRotation())
+        # a = cur.forward(1).left(4).bottom(1)
         # b = a.top(4).right(4).forward(100)
         # u1 = Used(a.get_current(), b.get_current(),  self.mc.getBlocks(a.get_current(), b.get_current()))
-        # MaBlock(self.mc).draw_ab(a.get_current(), b.get_current(), block.STONE.id)
+        # MaBlock(self.mc).draw_ab(a.get_current(), b.get_current(), block.DIRT.id)
         # return
 
         ### Railroad
@@ -46,7 +47,9 @@ class Test:
 
         rr = Railroad(self.mc, style, flume)
         # rr.set_strategy_for_air(CorniceSupport(mc, (Pillar(mc, DoNothing(mc, style, flume)))))
-        rr.set_strategy_for_tunnel(TunnelRound(self.mc, Tunnel9(self.mc, tunnel_style, flume)))
+        # rr.set_strategy_for_tunnel(TunnelRound(self.mc, Tunnel9(self.mc, tunnel_style, flume)))
+        rr.set_strategy_for_tunnel(TunnelRound(self.mc, Tunnel6(self.mc, tunnel_style, flume)))
+
         rr.draw(a, b)
 
         # @todo main strategy for env: air, water, stone

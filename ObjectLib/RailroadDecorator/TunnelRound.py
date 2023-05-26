@@ -21,10 +21,23 @@ class TunnelRound(AbstractDecorator):
             strategy.flume.set_as_used(cur, strategy.style.rounding.withData(rel.get_abs_direction(Rltv.UP_LEFT)))
 
         cur = rel.top(3).left(1)
-        if strategy.flume.get_one(cur) == block.AIR.id and strategy.flume.get_one(cur.left(1)) not in TunnelRound.glass:
+        if strategy.flume.get_one(cur) == block.AIR.id and strategy.flume.get_one(cur.left(1)) not in TunnelRound.glass\
+                and strategy.flume.get_one(cur.top(1)) not in TunnelRound.glass:
             strategy.flume.set_as_used(cur, strategy.style.rounding.withData(rel.get_abs_direction(Rltv.DOWN_RIGHT)))
 
         cur = rel.top(3).right(1)
-        if strategy.flume.get_one(cur) == block.AIR.id and strategy.flume.get_one(cur.right(1)) not in TunnelRound.glass:
+        if strategy.flume.get_one(cur) == block.AIR.id and strategy.flume.get_one(cur.right(1)) not in TunnelRound.glass\
+                and strategy.flume.get_one(cur.top(1)) not in TunnelRound.glass:
+            strategy.flume.set_as_used(cur, strategy.style.rounding.withData(rel.get_abs_direction(Rltv.DOWN_LEFT)))
+
+        # in case of Tunnel6 when it is 3x2
+        cur = rel.top(2).left(1)
+        if strategy.flume.get_one(cur) == block.AIR.id and strategy.flume.get_one(cur.left(1)) not in TunnelRound.glass\
+                and strategy.flume.get_one(cur.top(1)) not in TunnelRound.glass:
+            strategy.flume.set_as_used(cur, strategy.style.rounding.withData(rel.get_abs_direction(Rltv.DOWN_RIGHT)))
+
+        cur = rel.top(2).right(1)
+        if strategy.flume.get_one(cur) == block.AIR.id and strategy.flume.get_one(cur.right(1)) not in TunnelRound.glass\
+                and strategy.flume.get_one(cur.top(1)) not in TunnelRound.glass:
             strategy.flume.set_as_used(cur, strategy.style.rounding.withData(rel.get_abs_direction(Rltv.DOWN_LEFT)))
 
