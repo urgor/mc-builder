@@ -7,7 +7,7 @@ from Different.Relative import *
 
 
 class Tunnel6(AbstractStrategy):
-    liquid = [block.WATER.id, block.LAVA.id]
+    liquid = [block.WATER, block.LAVA]
 
     def exec(self, rel: Relative, builder_state):
         a = rel.left(2).get_current()

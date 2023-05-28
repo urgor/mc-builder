@@ -15,10 +15,10 @@ PUT_POWERED_EACH = 25
 
 
 class Railroad:
-    liquid = [block.WATER.id, block.LAVA.id]
-    fluffy = [block.AIR.id, block.WATER.id, block.LAVA.id, block.LEAVES.id, block.LEAVES2.id]
-    empty = [block.AIR.id, block.GRASS.id, block.GRASS_TALL.id, block.DEAD_BUSH.id, block.CACTUS.id, block.SUGAR_CANE.id,
-             block.FLOWER_CYAN.id, block.FLOWER_YELLOW.id, block.SNOW.id, block.SNOW_BLOCK.id]
+    liquid = [block.WATER, block.LAVA]
+    fluffy = [block.AIR, block.WATER, block.LAVA, block.LEAVES, block.LEAVES2]
+    empty = [block.AIR, block.GRASS_TALL, block.DEAD_BUSH, block.CACTUS, block.SUGAR_CANE,
+             block.FLOWER_CYAN, block.FLOWER_YELLOW, block.SNOW, block.SNOW_BLOCK]
 
     def __init__(self, mc: Minecraft, style: Style, flume: Flume):
         self.mc = mc
@@ -65,7 +65,7 @@ class Railroad:
             cur_block = self.used.get_one(cur)
             if cur_block in Railroad.empty:
                 block_under_cur = self.used.get_one(cur.bottom(1))
-                if block_under_cur in [block.AIR.id, block.WATER.id, block.LAVA.id]:
+                if block_under_cur in [block.AIR, block.WATER, block.LAVA]:
                     self.flume.set_as_used(cur, self.style.bottom)  # some gape under cur: bridging
                     self.in_air.exec(cur, self.state)
                 else:
@@ -84,18 +84,18 @@ class Railroad:
                     self.used.add(cur.top(3).get_current(), cur.bottom(2).forward(distance - i).get_current(),
                                   self.mc.getBlocks(cur.top(3).get_current(), cur.bottom(2).forward(distance - i).get_current()))
                 elif block_above_1 not in Railroad.fluffy and block_above_2 not in Railroad.fluffy and block_above_3 in Railroad.empty:  # 2 blocks and air above
-                    self.flume.set_as_used(cur.top(1), block.AIR.id)  # just remove extra blocks
-                    self.flume.set_as_used(cur.top(2), block.AIR.id)
+                    self.flume.set_as_used(cur.top(1), block.AIR)  # just remove extra blocks
+                    self.flume.set_as_used(cur.top(2), block.AIR)
                 else:
-                    self.flume.set_as_used(cur.top(1), block.AIR.id)  # more than 3 dense block above: go to tunneling
+                    self.flume.set_as_used(cur.top(1), block.AIR)  # more than 3 dense block above: go to tunneling
                     self.in_tunnel.exec(cur, self.state)
 
             self.flume.set_as_used(cur, self.style.bottom)
-            self.flume.set_as_used(cur.top(2), block.AIR.id)
+            self.flume.set_as_used(cur.top(2), block.AIR)
             if self.state['iteration'] == PUT_POWERED_EACH:
                 self.state['powered_rail_block'] = True
                 self.state['iteration'] = 0
-                self.flume.set_as_used(cur.top(1), block.RAIL_POWERED.id)
+                self.flume.set_as_used(cur.top(1), block.RAIL_POWERED)
                 self.flume.set_as_used(cur.bottom(2), self.style.bottom)
                 if self.used.get_one(cur.bottom(1)) in Railroad.liquid:
                     self.flume.set_as_used(cur.bottom(1).left(1), self.style.bottom)
@@ -104,4 +104,4 @@ class Railroad:
                     self.flume.set_as_used(cur.bottom(1).backward(1), self.style.bottom)
                 self.flume.set_as_used(cur.bottom(1), block.TORCH_REDSTONE.withData(UP))
             else:
-                self.flume.set_as_used(cur.top(1), block.RAIL.id)
+                self.flume.set_as_used(cur.top(1), block.RAIL)

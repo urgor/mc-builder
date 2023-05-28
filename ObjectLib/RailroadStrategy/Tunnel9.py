@@ -7,7 +7,7 @@ from Different.Relative import *
 
 
 class Tunnel9(AbstractStrategy):
-    liquid = [block.WATER.id, block.LAVA.id]
+    liquid = [block.WATER, block.LAVA]
 
     def exec(self, rel: Relative, builder_state):
         a = rel.left(2).get_current()
@@ -48,6 +48,6 @@ class Tunnel9(AbstractStrategy):
 
         for i in [1, 2, 3]:
             row = rel.top(i).left(1)
-            self.flume.set_as_used(row, block.AIR.id)
-            self.flume.set_as_used(row.right(1), block.AIR.id)
-            self.flume.set_as_used(row.right(2), block.AIR.id)
+            self.flume.set_as_used(row, block.AIR)
+            self.flume.set_as_used(row.right(1), block.AIR)
+            self.flume.set_as_used(row.right(2), block.AIR)

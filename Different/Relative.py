@@ -15,7 +15,12 @@ class Relative:
     DOWN_RIGHT = 2
     DOWN_LEFT = 3
 
-    mapping = {
+    RIGHT = 0
+    LEFT = 1
+    FORWARD = 2
+    BACKWARD = 3
+
+    mapping_stair = {
         NORTH: {
             UP_RIGHT: drctn.UP_EAST,
             UP_LEFT: drctn.UP_WEST,
@@ -39,6 +44,32 @@ class Relative:
             UP_LEFT: drctn.UP_SOUTH,
             DOWN_RIGHT: drctn.DOWN_NORTH,
             DOWN_LEFT: drctn.DOWN_SOUTH,
+        },
+    }
+    mapping_torch = {
+        NORTH: {
+            RIGHT: drctn.EAST,
+            LEFT: drctn.WEST,
+            FORWARD: drctn.NORTH,
+            BACKWARD: drctn.SOUTH,
+        },
+        SOUTH: {
+            RIGHT: drctn.WEST,
+            LEFT: drctn.EAST,
+            FORWARD: drctn.SOUTH,
+            BACKWARD: drctn.NORTH,
+        },
+        EAST: {
+            RIGHT: drctn.SOUTH,
+            LEFT: drctn.NORTH,
+            FORWARD: drctn.EAST,
+            BACKWARD: drctn.WEST,
+        },
+        WEST: {
+            RIGHT: drctn.NORTH,
+            LEFT: drctn.SOUTH,
+            FORWARD: drctn.WEST,
+            BACKWARD: drctn.EAST,
         },
     }
 
@@ -156,10 +187,18 @@ class Relative:
             case Relative.WEST:
                 return self.position.x - point.position.x
 
-    def get_abs_direction(self, direction: int) -> int:
+    def get_stairs_abs_direction(self, direction: int) -> int:
         """
-        Returns absolute direction by relative according current gaze direction
+        Returns absolute direction for stairs by relative according current gaze direction
         :param direction:
         :return:
         """
-        return Relative.mapping[self.direction][direction]
+        return Relative.mapping_stair[self.direction][direction]
+
+    def get_torch_abs_direction(self, direction: int) -> int:
+        """
+        Returns absolute direction for torches by relative according current gaze direction
+        :param direction:
+        :return:
+        """
+        return Relative.mapping_torch[self.direction][direction]

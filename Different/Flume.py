@@ -1,3 +1,4 @@
+from mcpi_e import block
 from mcpi_e.minecraft import Minecraft
 from typing import Generator
 from Different.Relative import *
@@ -14,11 +15,11 @@ class Flume:
         self.min_x = 0
         self.max_x = 0
 
-    def set_as_used(self, rel: Relative, block_id: int, *args):
+    def set_as_used(self, rel: Relative, block_obj: int | block.Block):
         """
         Set block as used by us, to draw it in the future
         :param rel: Relative position
-        :param block_id: Block ID
+        :param block_obj: Block ID
         :return:
         """
         cur = rel.get_current()
@@ -27,7 +28,7 @@ class Flume:
             self.new[cur.x] = {}
         if cur.y not in self.new[cur.x]:
             self.new[cur.x][cur.y] = {}
-        self.new[cur.x][cur.y][cur.z] = (block_id, *args)
+        self.new[cur.x][cur.y][cur.z] = block.Block(block_obj) if isinstance(block_obj, int) else block_obj
         self.min_y = min([self.min_y, cur.y])
         self.max_y = max([self.max_y, cur.y])
         self.min_x = min([self.min_x, cur.x])
@@ -93,7 +94,7 @@ class Flume:
         for (vec, block_id) in self.iterate_by_new_ordered():
             self.mc.setBlock(vec, block_id)
 
-    def get_one(self, rel: Relative) -> int:
+    def get_one(self, rel: Relative) -> block.Block:
         """
         Get one block from currently used from game, not by us!
         :param rel: Relative position
@@ -101,6 +102,6 @@ class Flume:
         """
         cur = rel.get_current()
         try:
-            return self.new[cur.x][cur.y][cur.z][0]
+            return self.new[cur.x][cur.y][cur.z]
         except:
             return None

@@ -1,8 +1,8 @@
+import mcpi_e.block as block
+from mcpi_e.vec3 import Vec3
 from datetime import datetime
 import pickle
 from typing import Generator
-from copy import *
-from mcpi_e.vec3 import Vec3
 import Different.Relative as Relative
 
 class Used:
@@ -51,7 +51,7 @@ class Used:
                     Used.all_used[x][y][z] = map_list[idx]
                     idx += 1
 
-    def get_one(self, rel: Relative) -> int:
+    def get_one(self, rel: Relative) -> block.Block:
         """
         Get one block from currently used from game, not by us!
         :param rel: Relative position
@@ -59,7 +59,7 @@ class Used:
         """
         cur = rel.get_current()
         try:
-            return self.used[cur.x][cur.y][cur.z]
+            return block.Block(self.used[cur.x][cur.y][cur.z])
         except:
             return None
 
