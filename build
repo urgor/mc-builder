@@ -4,6 +4,9 @@ from mcpi_e.minecraft import Minecraft
 import collections
 from Different.Used import Used
 from Different.Flume import Flume
+import configparser
+import json
+from mcpi_e.connection import Connection, RequestError
 
 collections.Iterable = collections.abc.Iterable  # to prevent "AttributeError: module 'collections' has no attribute 'Iterable'"
 
@@ -12,11 +15,9 @@ if sys.argv[1] is None:
 
 
 def connect_to_mc():
-    serverAddress = "127.0.0.1"
-    pythonApiPort = 4711  # default port for RaspberryJuice plugin is 4711, it could be changed in plugins\RaspberryJuice\config.yml
-    playerName = "Urgorka"  # change to your username
-
-    return Minecraft.create(serverAddress, pythonApiPort, playerName)
+    configParser = configparser.RawConfigParser()
+    configParser.read('myConf.ini')
+    return Minecraft.create(address=str(configParser['main']['ip']), port=int(configParser['main']['port']), playerName=str(configParser['main']['playerName']))
 
 def get_undo_list():
     file_list = glob.glob(Used.path_to_store + '/*.bin')
@@ -50,6 +51,22 @@ match sys.argv[1]:
             rot = mc.player.getRotation()
             print(pos, rot)
             data = input("Press enter:\n")
+
+    case 'info':
+        configParser = configparser.RawConfigParser()
+        configParser.read('myConf.ini')
+        con = Connection(str(configParser['main']['ip']), int(configParser['main']['port']))
+        try:
+            ids = con.sendReceive(b"world.getPlayerIds")
+            info = list(map(int, ids.split("|")))
+        except RequestError as e:
+            info=[]
+        x = {
+          "usersCount": info.__len__(),
+        }
+
+        print(json.dumps(x))
+
     case _:
         package = "Scenario"
         name = sys.argv[1]
