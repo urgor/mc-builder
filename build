@@ -1,12 +1,19 @@
 #!/usr/bin/python3
+
 import sys, glob
-from mcpi_e.minecraft import Minecraft
 import collections
-from Different.Used import Used
-from Different.Flume import Flume
 import configparser
 import json
+import sys, glob, time
+
+from mcpi_e.block import *
+
+from Different.Relative import Relative
+from Different.Used import Used
+from Different.Flume import Flume
+from mcpi_e.minecraft import Minecraft
 from mcpi_e.connection import Connection, RequestError
+from ObjectLib.GroundedQR import GroundedQR
 
 collections.Iterable = collections.abc.Iterable  # to prevent "AttributeError: module 'collections' has no attribute 'Iterable'"
 
@@ -66,6 +73,14 @@ match sys.argv[1]:
         }
 
         print(json.dumps(x))
+
+    case 'groundedQr':
+        GroundedQR(connect_to_mc()).draw(sys.argv[2])
+
+    case 'test':
+        mc=connect_to_mc()
+        position = Relative(mc.player.getTilePos(), mc.player.getRotation())
+
 
     case _:
         package = "Scenario"

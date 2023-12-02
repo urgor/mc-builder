@@ -68,7 +68,7 @@ class Used:
         min_y = min(self.used[cur.x].keys())
         max_y = max(self.used[cur.x].keys())
         current_rel = rel.top(0)
-        for y in range(max_y, min_y + 1, step) if step < 0 else range(min_y, max_y + 1, step):
+        for y in range(max_y, min_y - 1, step) if step < 0 else range(min_y, max_y + 1, step):
             current_rel.get_current().y = y
             yield current_rel, self.used[cur.x][y][cur.z]
 
