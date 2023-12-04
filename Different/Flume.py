@@ -86,7 +86,7 @@ class Flume:
             yield vec, self.new[vec.x][vec.y][vec.z]
 
     def flush_to_mc_yxz(self):
-        for (vec, block_id) in self.iterate_by_new():
+        for (vec, block_id) in self.iterate_by_new_ordered():
             self.mc.setBlock(vec, block_id)
 
     def flush_to_mc(self):

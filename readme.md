@@ -74,3 +74,10 @@ strategy = Tunnel6(self.mc, tunnel_style, flume)
 strategy_decorated = TunnelLight(self.mc, strategy, light_blocks=light_blocks, frequency_min=5, frequency_max=20)
 rr.set_strategy_for_tunnel(strategy_decorated)
 ```
+
+### Example6 ###
+![Railroad example 5](assets/images/2023-12-03_23.09.17.png "Funnel")
+
+```
+./build funnel
+```

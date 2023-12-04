@@ -6,6 +6,7 @@ import configparser
 import json
 import sys, glob, time
 
+from ObjectLib.Funnel import Funnel
 from mcpi_e.block import *
 
 from Different.Relative import Relative
@@ -81,6 +82,9 @@ match sys.argv[1]:
         mc=connect_to_mc()
         position = Relative(mc.player.getTilePos(), mc.player.getRotation())
 
+    case 'funnel':
+        mc=connect_to_mc()
+        Funnel(mc).draw(Relative(mc.player.getTilePos(), mc.player.getRotation()), 15, 5, 150)
 
     case _:
         package = "Scenario"

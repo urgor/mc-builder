@@ -83,7 +83,7 @@ class Connection:
         The actual socket interaction from self.send, extracted for easier mocking
         and testing
         """
-        time.sleep(settings.SYS_SPEED) #slow down the running speed
+        # time.sleep(settings.SYS_SPEED) #slow down the running speed
         #debug("sysspeed:",settings.SYS_SPEED)
         self.drain()
         self.lastSent = s
