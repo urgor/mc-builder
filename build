@@ -1,17 +1,11 @@
 #!/usr/bin/python3
 
-<<<<<<< HEAD
-import sys, glob
-=======
 from ObjectLib.VerticalQR import VerticalQR
-from mcpi.connection import Connection, RequestError
 from mcpi.minecraft import Minecraft
-from mcpi.block import *
->>>>>>> ba75a57 (VerticalQr added)
 import collections
 import configparser
 import json
-import sys, glob, time
+import sys, glob
 
 from ObjectLib.Funnel import Funnel
 from mcpi_e.block import *
