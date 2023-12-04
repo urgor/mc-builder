@@ -81,3 +81,12 @@ rr.set_strategy_for_tunnel(strategy_decorated)
 ```
 ./build funnel
 ```
+
+
+### Example7 ###
+![Railroad example 5](assets/images/2023-12-03_23.41.23.png "Vertical QR code")
+
+```
+pip3 install qrcode
+./build verticalQr 'any text here'
+```
